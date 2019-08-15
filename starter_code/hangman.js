@@ -37,7 +37,13 @@ class Hangman {
     }
   }
 
-  checkWinner() {}
+  checkWinner() {
+    if (this.guessedLetter.length == this.secretWord.length) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 // Hangman.prototype.addWrongLetter = function (letter) {
