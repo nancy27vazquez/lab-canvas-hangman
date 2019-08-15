@@ -55,40 +55,39 @@ ctx.lineTo(520, 570);
 ctx.stroke();
 
 // Secret word lines
-ctx.
 
 /* ============= */
 //We also want to store in a variable the secret word.
 
 class HangmanCanvas {
-  constructor(secretWord){
+  constructor(secretWord) {
     this.ctx = document.getElementById("hangman").getContext("2d");
     this.secretWord = secretWord;
   }
-  createBoard(){
+  createBoard() {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
-  drawLines(){}
-  writeCorrectLetter(index){
-    ctx.font = '48px Arial';
+  drawLines() {}
+  writeCorrectLetter(index) {
+    ctx.font = "48px Arial";
     // Write letter
-    ctx.fillText(this.writeCorrectLetter, 300,600);
+    ctx.fillText(this.writeCorrectLetter, 300, 600);
   }
-  writeWrongLetter(letter, errorsLeft){}
-  drawHangman(){}
-  gameOver(){
+  writeWrongLetter(letter, errorsLeft) {}
+  drawHangman() {}
+  gameOver() {
     var img = new Image();
-    img.src = 'images/gameover.png';
-    img.onload = function(){
-      this.ctx.drawImage(img, 315,280,570,240)
-    }
+    img.src = "images/gameover.png";
+    img.onload = function() {
+      this.ctx.drawImage(img, 315, 280, 570, 240);
+    };
   }
-  winner(){
+  winner() {
     var img = new Image();
-    img.src = 'images/awesome.png';
-    img.onload = function(){
-      this.ctx.drawImage(img, 164,91,872,618)
-    }
+    img.src = "images/awesome.png";
+    img.onload = function() {
+      this.ctx.drawImage(img, 164, 91, 872, 618);
+    };
   }
 }

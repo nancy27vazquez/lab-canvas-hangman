@@ -1,44 +1,81 @@
-let hangman;
+var hangman;
+var haveNotBeenPressed = false;
+var letterPressed;
+var winner = false;
+var gameOver = false;
 
 class Hangman {
   constructor() {
-    this.words = ["hola", "nan", "ernesto"];
+    this.words = [
+      "HOLA",
+      "CASA",
+      "CARRO",
+      "PERRO",
+      "FERROCARRIL",
+      "HOMBRO",
+      "TELEVISION"
+    ];
     this.secretWord = "";
-    this.letters = [];
+    this.lettersClicked = [];
+    this.errorsLeft = 7;
     this.guessedLetter = "";
-    this.errorsLeft = 10;
   }
+
   getWord() {
-    let randomWord = Math.floor(Math.random() * this.words.length);
-    this.secretWord = this.words[randomWord];
-    return this.words[randomWord];
+    let randomIndex = Math.floor(Math.random() * this.words.length);
+    this.secretWord = this.words[randomIndex];
+    return this.secretWord;
   }
-  checkIfLetter(a) {
-    if (a <= 65 && a >= 90) {
-      this.letters.push(a);
-      return true;
-    } else {
-      return false;
+
+  checkIfLetter(number) {
+    if (typeof number == "number") {
+      if (number >= 65 && number <= 90) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
-  checkClickedLetters(a) {
-    if (this.letters.includes(a)) {
-      return true;
-    } else {
-      return false;
+
+  checkClickedLetters(letter) {
+    if (typeof letter == "string") {
+      if (this.lettersClicked.indexOf(letter) == -1) {
+        return true; // No fue presionada
+      } else {
+        return false; // Fue presionada
+      }
     }
   }
-  addCorrectLetter() {}
+
+  addCorrectLetter(key) {
+    if (typeof key == "number") {
+      let letter = String.fromCharCode(key);
+      for (let i = 0; i < this.secretWord.length; i++) {
+        if (this.secretWord[i] == letter) {
+          this.guessedLetter = this.guessedLetter + letter;
+        }
+      }
+    }
+  }
+
+  addWrongLetter(key) {
+    if (typeof key == "number") {
+      let letter = String.fromCharCode(key);
+      if (this.secretWord.indexOf(letter) == -1)
+        this.errorsLeft = this.errorsLeft - 1;
+    }
+  }
+
   checkGameOver() {
-    if (this.errorsLeft === 0) {
-      return true;
-    } else {
+    if (this.errorsLeft > 0) {
       return false;
+    } else if (this.errorsLeft == 0) {
+      return true;
     }
   }
 
   checkWinner() {
-    if (this.guessedLetter.length == this.secretWord.length) {
+    if (this.secretWord.length == this.guessedLetter.length) {
       return true;
     } else {
       return false;
@@ -46,22 +83,36 @@ class Hangman {
   }
 }
 
-// Hangman.prototype.addWrongLetter = function (letter) {
-
-// };
-
-// Hangman.prototype.checkGameOver = function () {
-
-// };
-
-// Hangman.prototype.checkWinner = function () {
-
-// };
-
 document.getElementById("start-game-button").onclick = function() {
   hangman = new Hangman();
-  // New blank board when starting the game
-  canvas.createBoard();
+  hangman.getWord();
+  winner = false;
+  gameOver = false;
+  // New blank board when starting
+  // this.canvas.createBoard();
 };
 
-document.onkeydown = function(e) {};
+document.onkeydown = function(e) {
+  let key = e.keyCode;
+  let isLetter = hangman.checkIfLetter(key);
+  if (!winner && !gameOver) {
+    if (isLetter) {
+      letterPressed = String.fromCharCode(key);
+      haveNotBeenPressed = hangman.checkClickedLetters(letterPressed);
+      if (haveNotBeenPressed) {
+        hangman.lettersClicked.push(letterPressed);
+        hangman.addCorrectLetter(key);
+        hangman.addWrongLetter(key);
+      }
+    }
+    gameOver = hangman.checkGameOver();
+    winner = hangman.checkWinner();
+    console.log(e.keyCode, letterPressed, haveNotBeenPressed);
+    console.log(hangman.lettersClicked);
+    console.log(
+      "guessed:" + hangman.guessedLetter,
+      "error:" + hangman.errorsLeft
+    );
+    console.log("Winner:" + winner, "GameOver:" + gameOver);
+  }
+};
