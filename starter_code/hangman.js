@@ -60,6 +60,8 @@ class Hangman {
 
 document.getElementById("start-game-button").onclick = function() {
   hangman = new Hangman();
+  // New blank board when starting the game
+  canvas.createBoard();
 };
 
 document.onkeydown = function(e) {};

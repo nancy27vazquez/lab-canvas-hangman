@@ -70,9 +70,25 @@ class HangmanCanvas {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
   drawLines(){}
-  writeCorrectLetter(index){}
+  writeCorrectLetter(index){
+    ctx.font = '48px Arial';
+    // Write letter
+    ctx.fillText(this.writeCorrectLetter, 300,600);
+  }
   writeWrongLetter(letter, errorsLeft){}
   drawHangman(){}
-  gameOver(){}
-  winner(){}
+  gameOver(){
+    var img = new Image();
+    img.src = 'images/gameover.png';
+    img.onload = function(){
+      this.ctx.drawImage(img, 315,280,570,240)
+    }
+  }
+  winner(){
+    var img = new Image();
+    img.src = 'images/awesome.png';
+    img.onload = function(){
+      this.ctx.drawImage(img, 164,91,872,618)
+    }
+  }
 }
